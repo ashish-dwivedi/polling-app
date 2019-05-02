@@ -1,0 +1,76 @@
+@import "~src/scss/variables";
+
+:host {
+  margin: 20px;
+  flex-basis: 40%;
+  cursor: pointer;
+  vertical-align: middle;
+
+  .toot-card {
+    //margin: 20px;
+    //flex-basis: 40%;
+    //cursor: pointer;
+    //vertical-align: middle;
+
+    &:hover {
+
+      &.tag-active {
+
+        .hover-overlay {
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity: 0.9;
+          height: 100%;
+          display: block;
+          font-size: 30px;
+          color: $dark-grey;
+          position: absolute;
+          font-weight: bolder;
+          background-color: $white;
+
+          span {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+          }
+
+          .sub-text {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+
+    .hover-overlay {
+      display: none;
+    }
+
+    .missing-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 5px;
+    }
+
+    mat-card-content {
+      max-width: 95%;
+      font-size: 20px;
+      font-style: italic;
+      white-space: normal;
+      word-break: break-all;
+
+      ::ng-deep {
+
+        a {
+          color: $primary;
+          text-decoration: none;
+        }
+      }
+
+      .attachment-image {
+        width: 400px;
+        height: 300px;
+      }
+    }
+  }
+}

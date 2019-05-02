@@ -1,0 +1,79 @@
+@import "~src/scss/variables";
+
+.logo {
+  height: 25px;
+  padding: 5px;
+  margin-right: 20px;
+  border-radius: 5px;
+  background-color: $white;
+}
+
+mat-toolbar {
+
+  .router-buttons {
+    margin-left: 50px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+.loading-wrapper {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  text-align: center;
+  background-color: rgba(256, 256, 256, 0.6);
+
+  mat-progress-spinner {
+    vertical-align: middle;
+    margin-top: calc(50vh - 50px);
+    margin-left: calc(50vw - 50px);
+  }
+}
+
+.timer-container {
+  top: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: table;
+  position: fixed;
+  background-color: rgba(210, 210, 210, 0.8);
+
+  .time {
+    color: $black;
+    font-size: 200px;
+    text-align: center;
+    font-weight: bolder;
+    display: table-cell;
+    font-family: Verdana;
+    vertical-align: middle;
+
+    span {
+
+      &.last-5-seconds {
+        animation: blink 1s linear;
+        animation-iteration-count: infinite;
+      }
+    }
+  }
+}
+
+.content-wrapper {
+  width: 60vw;
+  padding: 50px;
+  margin-left: 20vw;
+  background-color: white;
+  box-shadow: 2px 4px 4px $grey;
+}
+
+@keyframes blink {
+  0% { font-size: 200px; }
+  50% { font-size: 150px;  color: red; }
+  100% { font-size: 200px; }
+}

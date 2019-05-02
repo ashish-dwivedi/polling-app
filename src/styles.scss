@@ -1,0 +1,29 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~src/scss/variables";
+
+body {
+  margin: 0;
+  background-color: rgba(210, 210, 210, 0.2);
+
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.float-right {
+  float: right;
+}
+//
+//.mat-toolbar {
+//
+//  .mat-primary {
+//    background-color: $dark-blue;
+//  }
+//}
+//
+//.mat-raised-button {
+//
+//  .mat-primary {
+//    background-color: $dark-blue;
+//  }
+//}

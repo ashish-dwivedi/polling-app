@@ -1,0 +1,43 @@
+<table mat-table [dataSource]="winners" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> position </th>
+    <td mat-cell *matCellDef="let element; let index = index">
+      {{ element?.position }}
+      <mat-icon *ngIf="index === 0">stars</mat-icon>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="participant">
+    <th mat-header-cell *matHeaderCellDef> participant </th>
+    <td mat-cell *matCellDef="let element">
+      <a target="_blank" [href]="element?.participant?.url">
+        <img [src]="element?.participant?.avatar">
+        {{ element?.participant?.display_name }}
+        <span class="handle">@{{ element?.participant?.acct }}</span>
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="winning answers">
+    <th mat-header-cell *matHeaderCellDef> winning answers </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-mini-fab
+        color="primary"
+        *ngFor="let tag of element?.winningAnswers">
+        <a
+          target="_blank"
+          [href]="tag.url">{{ tag.name }}</a>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="points">
+    <th mat-header-cell *matHeaderCellDef> points </th>
+    <td mat-cell *matCellDef="let element"> {{ element?.points }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

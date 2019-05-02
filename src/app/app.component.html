@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <img
+      class="logo"
+      [routerLink]="['/']"
+      src="../assets/img/akelius_logo.png">
+    <span>poll bot</span>
+    <div class="router-buttons">
+      <button
+        mat-button
+        [routerLink]="['/']">
+        <mat-icon>question_answer</mat-icon>
+        quiz
+      </button>
+      <button
+        mat-button
+        [routerLink]="['/user-stats']">
+        <mat-icon>dashboard</mat-icon>
+        leader board
+      </button>
+    </div>
+    <span class="spacer"></span>
+    <button
+      mat-icon-button
+      (click)="onAddTimeClick(false)">
+      <mat-icon>remove_circle_outline</mat-icon>
+    </button>
+    <button
+      color="basic"
+      mat-raised-button
+      (click)="onStartTimerClick()">
+      <mat-icon>timer</mat-icon>
+      <span>{{ time }}s timer</span>
+    </button>
+    <button
+      mat-icon-button
+      (click)="onAddTimeClick(true)">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div
+  class="loading-wrapper"
+  *ngIf="commonService?.loading">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    value="50">
+  </mat-progress-spinner>
+</div>
+<div
+  class="timer-container"
+  *ngIf="commonService?.timerRunning?.getValue()">
+  <div class="time">
+    <span [ngClass]="{'last-5-seconds': time < 5}">{{ time }}</span>
+  </div>
+</div>
+<div class="content-wrapper">
+  <router-outlet></router-outlet>
+</div>

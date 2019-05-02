@@ -1,0 +1,37 @@
+<mat-card
+  class="toot-card"
+  [ngClass]="{ 'tag-active': tagSearch.value }"
+  (click)="onTootCardClick.next(toot)">
+  {{ toot?.isWinner }}
+  <div class="hover-overlay">
+    <span *ngIf="!isWinner">Am I the winner?</span>
+    <span *ngIf="isWinner">
+      Winner
+      <mat-icon>golf_course</mat-icon>
+    </span>
+  </div>
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img
+        class="missing-avatar"
+        [src]="toot?.account?.avatar">
+    </div>
+    <mat-card-title>
+      {{ toot?.account?.display_name || toot?.account?.acct }}
+    </mat-card-title>
+    <mat-card-subtitle>{{ '@' + toot?.account?.acct }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p [innerHTML]="toot.content"></p>
+    <div *ngIf="toot?.media_attachments?.length">
+      <img
+        class="attachment-image"
+        *ngFor="let media of toot?.media_attachments"
+        [src]="media.url"
+      >
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    {{ toot?.created_at | date:'hh:mm:ss, dd MMM, yyyy' }}
+  </mat-card-actions>
+</mat-card>

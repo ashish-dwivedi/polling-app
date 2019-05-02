@@ -1,0 +1,57 @@
+@import "~src/scss/variables";
+
+:host {
+
+  table {
+    width: 80%;
+    margin: 0 auto;
+
+    tr {
+
+      td {
+        overflow: auto;
+        max-width: 250px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        a {
+          text-decoration: none;
+
+          &:visited {
+            color: initial;
+          }
+        }
+
+        mat-icon {
+          color: $green;
+          vertical-align: middle;
+        }
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 5px;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+
+        .handle {
+          font-weight: bold;
+          color: $dark-blue;
+        }
+
+        button {
+          margin-right: 5px;
+          -ms-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          max-width: 80%;
+
+          a {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

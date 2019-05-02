@@ -1,0 +1,111 @@
+<div class="header">
+  <mat-form-field class="search-bar">
+    <input
+      matInput
+      type="text"
+      [formControl]="tagSearch"
+      placeholder="search #tag">
+    <mat-icon
+      matSuffix
+      *ngIf="tagSearch.value"
+      (click)="onCloseClick()">
+      close
+    </mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      type="password"
+      [formControl]="correctAnswer"
+      placeholder="correct answer">
+    <mat-icon
+      matSuffix
+      *ngIf="correctAnswer.value"
+      (click)="onClearCorrectAnswer()">
+      close
+    </mat-icon>
+  </mat-form-field>
+  <button
+    matSuffix
+    color="primary"
+    [disabled]="!tagSearch.value"
+    mat-raised-button
+    (click)="onChartsClick()">
+    <mat-icon>bar_chart</mat-icon>
+    <span>stats</span>
+  </button>
+</div>
+<div class="toot-cards-wrapper">
+  <div class="winner-card-container" *ngIf="winners?.length">
+    <mat-card
+      class="toot-card"
+      *ngFor="let winner of winners"
+      [ngClass]="{ 'tag-active': tagSearch?.value }"
+      (click)="onTootCardClick(winner)">
+      <div class="hover-overlay">
+        <span>
+          Winner
+          <mat-icon>golf_course</mat-icon>
+        </span>
+      </div>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <img
+            class="missing-avatar"
+            [src]="winner?.account?.avatar">
+        </div>
+        <mat-card-title>
+          {{ winner?.account?.display_name || winner?.account?.acct }}
+        </mat-card-title>
+        <mat-icon>stars</mat-icon>
+        <mat-card-subtitle>{{ '@' + winner?.account?.acct }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="winner.content"></p>
+        <div *ngIf="winner?.media_attachments?.length">
+          <img
+            class="attachment-image"
+            *ngFor="let media of winner?.media_attachments"
+            [src]="media?.url"
+          >
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        {{ winner?.created_at | date:'hh:mm:ss, dd MMM, yyyy' }}
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <mat-card
+    class="toot-card"
+    [ngClass]="{ 'tag-active': tagSearch.value }"
+    (click)="onTootCardClick(toot)"
+    *ngFor="let toot of toots">
+    <div class="hover-overlay">
+      <span>Am I the winner?</span>
+    </div>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img
+          class="missing-avatar"
+          [src]="toot?.account?.avatar">
+      </div>
+      <mat-card-title>
+        {{ toot?.account?.display_name || toot?.account?.acct }}
+      </mat-card-title>
+      <mat-card-subtitle>{{ '@' + toot?.account?.acct }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p [innerHTML]="toot.content"></p>
+      <div *ngIf="toot?.media_attachments?.length">
+        <img
+          class="attachment-image"
+          *ngFor="let media of toot?.media_attachments"
+          [src]="media.url"
+          >
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      {{ toot?.created_at | date:'hh:mm:ss, dd MMM, yyyy' }}
+    </mat-card-actions>
+  </mat-card>
+</div>
