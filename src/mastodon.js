@@ -23,10 +23,10 @@ var MastodonAPI = function (config) {
 
     function onAjaxSuccess(url, op, callback, logData) {
         return function (data, textStatus, xhr) {
-            console.log("Successful " + op + " API request to " + url,
-                      ", status: " + textStatus,
-                      ", HTTP status: " + xhr.status,
-                      ", data: " + (logData ? JSON.stringify(data) : "<skipped>"));
+            // console.log("Successful " + op + " API request to " + url,
+            //           ", status: " + textStatus,
+            //           ", HTTP status: " + xhr.status,
+            //           ", data: " + (logData ? JSON.stringify(data) : "<skipped>"));
 
             if (typeof callback !== "undefined") {
                 callback(data, xhr);

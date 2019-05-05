@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h2>quiz selector</h2>
+  <mat-icon class="float-right" (click)="onCloseDialogClick()">close</mat-icon>
+</div>
+<div class="modal-body">
+  <form class="add-quiz-form">
+    <mat-form-field class="quiz-subject-input">
+      <input
+        matInput
+        [formControl]="quizSubject"
+        placeholder="new quiz subject">
+    </mat-form-field>
+    <button
+      type="submit"
+      mat-raised-button
+      [disabled]="!quizSubject?.value"
+      color="primary"
+      (click)="addNewQuiz()">
+      <mat-icon>
+        add
+      </mat-icon>
+      add
+    </button>
+  </form>
+  <hr>
+  <div class="sub-header">available quizzes</div>
+  <div class="quiz-list">
+    <div
+      class="quiz-list-item"
+      *ngFor="let subject of quizSubjects">
+      <button
+        mat-raised-button
+        (click)="onSubjectSelectClick(subject.content)">{{ subject.content }}</button>
+    </div>
+  </div>
+</div>

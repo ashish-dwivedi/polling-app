@@ -2,9 +2,9 @@ import { findIndex } from "lodash";
 import { FormControl } from "@angular/forms";
 import { MatDialog } from "@angular/material";
 import { debounceTime } from "rxjs/operators";
-import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../shared/api.service";
 import { CommonService } from "../shared/common.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChartsModalComponent } from "../charts-modal/charts-modal.component";
 
 let allToots: any[] = [];
@@ -15,13 +15,14 @@ let intervalRef: any = {};
   templateUrl: './toot.component.html',
   styleUrls: ['./toot.component.scss']
 })
-export class TootComponent implements OnInit {
+export class TootComponent implements OnInit, OnDestroy {
   api: any;
   modalRef: any;
   toots: any[] = [];
   winners: any[] = [];
   lastId: string = '';
-  tagSearch = new FormControl('');
+  subscriptions: any = {};
+  tagSearch = new FormControl({value: '', disabled: true});
   correctAnswer = new FormControl({value: '', disabled: true});
 
   constructor(
@@ -33,7 +34,28 @@ export class TootComponent implements OnInit {
   ngOnInit() {
     this.api = this.apiService.api;
     this.getTimeLines();
-    this.tagSearch.valueChanges
+    this.initializeSubscriptions();
+  }
+
+  ngOnDestroy(): void {
+    this.resetWinnerData();
+    Object.keys(this.subscriptions).map(key => {
+      this.subscriptions[key].unsubscribe();
+    })
+  }
+
+  initializeSubscriptions(): void {
+    this.subscriptions['quiz'] = this.commonService.quizSubject.subscribe(
+      value => {
+        if (value) {
+          this.tagSearch.enable({
+            onlySelf: true,
+            emitEvent: false
+          })
+        }
+      }
+    );
+    this.subscriptions['tagSearch'] = this.tagSearch.valueChanges
       .pipe(
         debounceTime(400)
       )
@@ -53,16 +75,14 @@ export class TootComponent implements OnInit {
           }
         }
       );
-    this.correctAnswer.valueChanges
+    this.subscriptions['correctAnswer'] = this.correctAnswer.valueChanges
       .pipe(
         debounceTime(400)
       )
       .subscribe(
         value => {
-          console.log(value);
           if (value !== '') {
             this.toots = [].concat(allToots).filter(toot => {
-              console.log(toot.content.toLowerCase().replace(/<[^>]*>/g, ''), value);
               return toot.content.toLowerCase().replace(/<[^>]*>/g, '')
                 .indexOf(value.toLowerCase()) >= 0
             });
@@ -71,7 +91,7 @@ export class TootComponent implements OnInit {
           }
         }
       );
-    this.commonService.timerRunning.subscribe(
+    this.subscriptions['timer'] = this.commonService.timerRunning.subscribe(
       value => {
         if (value === true && this.tagSearch.value) {
           if (value === true) {
@@ -85,12 +105,21 @@ export class TootComponent implements OnInit {
         }
       }
     );
+    this.subscriptions['winner'] = this.commonService.winners.subscribe(
+      value => {
+        value.map(toot => {
+          this.api.get('statuses/' + toot.content.substr(toot.content.indexOf('winnerId=') + 9), data => {
+            this.winners.push(data);
+          })
+        });
+      }
+    );
   }
 
   getStatusesWithTag(): void {
     this.api.get(`timelines/tag/${ this.tagSearch.value }`,
       { limit: 40 },
-      (data) => {
+      data => {
         let tempArray = [];
         data = data.reverse();
         data.map(toot => {
@@ -113,13 +142,24 @@ export class TootComponent implements OnInit {
   onTootCardClick(toot): void {
     if(this.tagSearch.value) {
       if (findIndex(this.winners, { id: toot.id}) < 0) {
-        this.api.post(`statuses/${toot.id}/favourite`, () => {
+        this.api.post('statuses', {
+          status: `#quizwinner:quiz=${this.commonService.quizSubject.value.trim()}:` +
+            `tag=${this.tagSearch.value}:winnerId=${toot.id}`,
+          visibility: 'unlisted'
+        }, () => {
           this.winners.push(toot);
         });
       } else {
-        this.api.post(`statuses/${toot.id}/unfavourite`, () => {
-          this.winners.splice(findIndex(this.winners, {id: toot.id}), 1);
-        });
+        const existingToot = this.commonService.winners.value[
+            findIndex(this.commonService.winners.value, winnerToot => {
+              return (winnerToot.content.indexOf(`winnerId=${ toot.id }`) >= 0);
+            })
+          ];
+        this.api.delete(`statuses/${ existingToot.id }`, () => {
+          this.winners.splice(findIndex(this.winners, { id: toot.id }, 1));
+          this.resetWinnerData();
+          this.commonService.getAllBotToots({ tag: `${ this.tagSearch.value }`, isTag: true });
+        })
       }
     }
   }
@@ -156,6 +196,12 @@ export class TootComponent implements OnInit {
   }
 
   extractWinners(): void {
-    this.winners = this.toots.filter(toot => toot.favourited === true);
+    this.resetWinnerData();
+    this.commonService.getAllBotToots({ tag: `${ this.tagSearch.value }`, isTag: true });
+  }
+
+  resetWinnerData(): void {
+    this.commonService.winners.next([]);
+    this.commonService.allBotToots.next([]);
   }
 }

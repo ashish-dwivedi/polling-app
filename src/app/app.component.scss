@@ -9,13 +9,37 @@
 }
 
 mat-toolbar {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  position: fixed;
+  font-family: $fontBaseFamily;
 
   .router-buttons {
     margin-left: 50px;
+
+    button {
+      font-family: $fontBaseFamily;
+    }
+  }
+
+  .text {
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid $white;
+    font-family: $fontBaseFamily;
   }
 
   .spacer {
     flex: 1 1 auto;
+  }
+
+  .timer-button {
+    font-family: $fontBaseFamily;
   }
 }
 
@@ -51,8 +75,8 @@ mat-toolbar {
     text-align: center;
     font-weight: bolder;
     display: table-cell;
-    font-family: Verdana;
     vertical-align: middle;
+    font-family: $fontBaseFamily;
 
     span {
 
@@ -67,6 +91,7 @@ mat-toolbar {
 .content-wrapper {
   width: 60vw;
   padding: 50px;
+  margin-top: 64px;
   margin-left: 20vw;
   background-color: white;
   box-shadow: 2px 4px 4px $grey;

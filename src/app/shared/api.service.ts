@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import MastodonAPI from '../../mastodon';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class ApiService {
       this.registerApplication();
     } else {
       this.authCode = this.route.snapshot.queryParams.code;
-      localStorage.setItem('authCode', this.authCode)
+      localStorage.setItem('authCode', this.authCode);
     }
   }
 
@@ -53,7 +53,6 @@ export class ApiService {
       environment.auth.redirectUri,
       authCode,
       function(data) {
-        console.log(data);
         // this.api.setConfig('api_user_token', tokenvar);
       }
     )

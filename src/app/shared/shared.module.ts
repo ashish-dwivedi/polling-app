@@ -5,10 +5,12 @@ import {
   MatCardModule,
   MatDialogModule,
   MatIconModule,
-  MatInputModule, MatProgressSpinnerModule, MatTableModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatTableModule,
   MatToolbarModule
 } from "@angular/material";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 const MAT_MODULES = [
   MatCardModule,
@@ -26,10 +28,12 @@ const MAT_MODULES = [
   imports: [
     CommonModule,
     ...MAT_MODULES,
+    FormsModule,
     ReactiveFormsModule
   ],
   exports: [
     ...MAT_MODULES,
+    FormsModule,
     ReactiveFormsModule
   ]
 })

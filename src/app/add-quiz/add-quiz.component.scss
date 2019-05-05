@@ -1,0 +1,54 @@
+@import "~src/scss/variables";
+
+:host {
+  color: $secondary;
+  font-family: $fontBaseFamily;
+
+  .modal-header {
+    margin-bottom: 20px;
+
+    h2 {
+      margin-top: 0;
+      font-size: 24px;
+      text-align: left;
+      line-height: 30px;
+      display: inline-block;
+    }
+
+    mat-icon {
+      cursor: pointer;
+    }
+  }
+
+  .modal-body {
+
+    .add-quiz-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .quiz-subject-input {
+        flex-basis: 75%;
+        margin-right: 20px;
+        color: $primary;
+      }
+
+      button {
+        flex-basis: 25%;
+      }
+    }
+
+    .sub-header {
+      margin: 20px 0;
+    }
+
+    .quiz-list {
+
+      .quiz-list-item {
+        margin: 5px;
+        display: inline-block;
+      }
+    }
+
+  }
+}

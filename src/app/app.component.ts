@@ -1,16 +1,29 @@
-import { Component } from '@angular/core';
-import { CommonService } from "./shared/common.service";
+import { MatDialog } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { CommonService } from './shared/common.service';
+import { AddQuizComponent } from './add-quiz/add-quiz.component';
 
 let timer = 10;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   time = timer;
+  quizSubject: string;
 
-  constructor(public commonService: CommonService) {}
+  constructor(
+    private dialog: MatDialog,
+    public commonService: CommonService
+  ) {}
+
+  ngOnInit(): void {
+    this.commonService.quizSubject.subscribe(
+      value => this.quizSubject = value
+    );
+  }
 
   onStartTimerClick(): void {
     if (this.commonService.timerRunning.getValue()) {
@@ -24,7 +37,7 @@ export class AppComponent {
         this.commonService.timerRunning.next(false);
         clearInterval(intervalRef);
       }
-    }, 1000)
+    }, 1000);
   }
 
   onAddTimeClick(addTime: boolean): void {
@@ -34,5 +47,11 @@ export class AppComponent {
       this.time -= 5;
     }
     timer = this.time;
+  }
+
+  onSelectQuizClick(): void {
+    this.dialog.open(AddQuizComponent, {
+      width: '400px'
+    });
   }
 }

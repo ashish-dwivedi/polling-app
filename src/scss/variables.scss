@@ -1,7 +1,22 @@
-$grey: #d2d2d2;
-$black: #000000;
+$fontBaseFamily: Verdana, sans-serif;
+$fontBaseSize: 16px;
+$fontBase: $fontBaseSize $fontBaseFamily;
+
+$primary: #357CA2;
+$secondary: #172B53;
+$mouseover: #f5f5f5;
+
+$mediumblue: #2C6685;
+$paleblue: #A3C3D4;
+$linegrey: #E2E5E8;
 $white: #ffffff;
+$black: #000000;
+
+$critical: #9F1D22;
+$error: #C4401A;
+$success: #117B42;
+$warning: #EFB71F;
+
+$grey: #B0BAC1;
 $green: #117B42;
-$primary: #2891da;
-$dark-blue: #172B53;
 $dark-grey: #a5a5a5;

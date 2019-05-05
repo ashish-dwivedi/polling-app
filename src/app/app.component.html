@@ -4,7 +4,7 @@
       class="logo"
       [routerLink]="['/']"
       src="../assets/img/akelius_logo.png">
-    <span>poll bot</span>
+    <span>quiz</span>
     <div class="router-buttons">
       <button
         mat-button
@@ -18,6 +18,18 @@
         <mat-icon>dashboard</mat-icon>
         leader board
       </button>
+      <button
+        mat-button
+        (click)="onSelectQuizClick()">
+        <mat-icon>pages</mat-icon>
+        select quiz
+      </button>
+    </div>
+    <div
+      class="text"
+      (click)="onSelectQuizClick()"
+      *ngIf="quizSubject">
+      active quiz: {{ quizSubject }}
     </div>
     <span class="spacer"></span>
     <button
@@ -26,6 +38,7 @@
       <mat-icon>remove_circle_outline</mat-icon>
     </button>
     <button
+      class="timer-button"
       color="basic"
       mat-raised-button
       (click)="onStartTimerClick()">

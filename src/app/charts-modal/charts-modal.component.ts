@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label } from 'ng2-charts';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import { findIndex } from "lodash";
+import { findIndex } from 'lodash';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-charts-modal',
@@ -45,17 +45,17 @@ export class ChartsModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     let labelCountMap = [];
     this.data.map(dataItem => {
       let content = dataItem.content;
-        content = content.replace(/<[^>]*>/g, '');
-        if (findIndex(labelCountMap, { label: content }) >= 0) {
-          labelCountMap[findIndex(labelCountMap, { label: content })].count++;
-        } else {
-          labelCountMap.push({ label: content, count: 1 })
-        }
-        return content;
+      content = content.replace(/<[^>]*>/g, '');
+      if (findIndex(labelCountMap, { label: content }) >= 0) {
+        labelCountMap[findIndex(labelCountMap, { label: content })].count++;
+      } else {
+        labelCountMap.push({ label: content, count: 1 });
+      }
+      return content;
     });
     this.barChartLabels = labelCountMap.map(item => item.label);
     this.barChartData[0].data = labelCountMap.map(item => item.count);
