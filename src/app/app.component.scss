@@ -32,6 +32,11 @@ mat-toolbar {
     text-align: center;
     border: 1px solid $white;
     font-family: $fontBaseFamily;
+
+    mat-icon {
+      font-size: 20px;
+      vertical-align: middle;
+    }
   }
 
   .spacer {

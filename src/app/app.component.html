@@ -30,6 +30,7 @@
       (click)="onSelectQuizClick()"
       *ngIf="quizSubject">
       active quiz: {{ quizSubject }}
+      <mat-icon (click)="commonService.quizSubject.next('')">cancel</mat-icon>
     </div>
     <span class="spacer"></span>
     <button
